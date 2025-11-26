@@ -1,0 +1,36 @@
+@extends(view: 'templates.layout')
+
+@section(section: 'title', content: 'Customer Pages')
+
+@section(section: 'content')
+<div class="container mt-3">
+
+  @if(session(key: 'success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ session(key: 'success') }}
+    </div>
+  @endif
+
+@section(section: 'title', content: 'Customer Pages')
+
+@section(section: 'content')
+<div class="container mt-3">
+
+  @if(session(key: 'success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ session(key: 'success') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
+  @if(session(key: 'error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ session(key: 'error') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+  
+  @include(view 'customer.data')
+
+</div>
+@endsection
