@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium POS - Sistem Kasir Pintar</title>
+    <meta name="description" content="Aplikasi Point of Sales sederhana dengan desain premium dan sistem CRUD.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">VeloPOS</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" id="btn-kasir" onclick="switchView('kasir')">
+                    <span class="icon">🛒</span> Kasir
+                </button>
+                <button class="nav-btn" id="btn-admin" onclick="switchView('admin')">
+                    <span class="icon">⚙️</span> Kelola Produk
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <p>© 2026 VeloPOS Pro</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- View: Kasir -->
+            <section id="view-kasir" class="view active">
+                <header class="content-header">
+                    <h1>Katalog Produk</h1>
+                    <div class="search-bar">
+                        <input type="text" id="search-product" placeholder="Cari produk..." onkeyup="filterProducts()">
+                    </div>
+                </header>
+
+                <div class="kasir-layout">
+                    <div class="product-grid" id="product-list">
+                        <!-- Produk akan di-render di sini -->
+                    </div>
+
+                    <aside class="cart-sidebar">
+                        <div class="cart-header">
+                            <h2>Keranjang Belanja</h2>
+                            <button class="btn-clear" onclick="clearCart()">Reset</button>
+                        </div>
+                        <div class="cart-items" id="cart-items">
+                            <!-- Item keranjang akan di-render di sini -->
+                        </div>
+                        <div class="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="cart-subtotal">Rp 0</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Pajak (10%)</span>
+                                <span id="cart-tax">Rp 0</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total</span>
+                                <span id="cart-total">Rp 0</span>
+                            </div>
+                            <button class="btn-checkout" onclick="checkout()">Checkout Sekarang</button>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- View: Admin (CRUD) -->
+            <section id="view-admin" class="view">
+                <header class="content-header">
+                    <h1>Manajemen Produk</h1>
+                    <button class="btn-primary" onclick="openProductModal()">+ Tambah Produk</button>
+                </header>
+
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Gambar</th>
+                                <th>Nama Produk</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-product-table">
+                            <!-- Baris produk CRUD akan di-render di sini -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal Form CRUD -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Tambah Produk Baru</h2>
+            <form id="product-form" onsubmit="saveProduct(event)">
+                <input type="hidden" id="edit-index" value="-1">
+                <div class="form-group">
+                    <label for="prod-name">Nama Produk</label>
+                    <input type="text" id="prod-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="prod-category">Kategori</label>
+                    <select id="prod-category">
+                        <option value="Minuman">Minuman</option>
+                        <option value="Makanan">Makanan</option>
+                        <option value="Snack">Snack</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prod-price">Harga (Rp)</label>
+                    <input type="number" id="prod-price" required>
+                </div>
+                <div class="form-group">
+                    <label for="prod-image">URL Gambar (Opsional)</label>
+                    <input type="text" id="prod-image" placeholder="https://...">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeProductModal()">Batal</button>
+                    <button type="submit" class="btn-primary">Simpan Produk</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Receipt Modal (Hidden by default) -->
+    <div id="receipt-modal" class="modal">
+        <div class="receipt-container" id="receipt-content">
+            <!-- Isi struk akan di-render di sini -->
+        </div>
+        <div class="receipt-actions no-print">
+            <button class="btn-secondary" onclick="closeReceipt()">Tutup</button>
+            <button class="btn-primary" onclick="window.print()">Cetak Struk</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
